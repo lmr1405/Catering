@@ -13,31 +13,43 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-
 /**
- * The persistent class for the CLIENTE database table.
+ * Entidad que representa la tabla CLIENTE. Un cliente puede tener asociado un
+ * bono y realizar múltiples compras.
  * 
+ * @author Luis Menendez Ramos
  */
 @Entity
-@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
+@NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * CIF del cliente (clave primaria).
+	 */
 	@Id
 	private String cif;
 
 	private String descripcion;
 
+	/**
+	 * Dirección postal del cliente Se trata de una clase embebida, por lo que sus
+	 * atributos se almacenan en la misma tabla cliente
+	 */
 	@Embedded
 	private DireccionPostal direccionPostal;
 
-	//bi-directional many-to-one association to Bonocliente
+	/**
+	 * Bono asociado al cliente.
+	 */
 	@ManyToOne
-	@JoinColumn(name="IDBONOCLIENTE")
+	@JoinColumn(name = "IDBONOCLIENTE")
 	private BonoCliente bonoCliente;
 
-	//bi-directional many-to-one association to Compra
-	@OneToMany(mappedBy="cliente", fetch = FetchType.LAZY)
+	/**
+	 * Compras realizadas por el cliente.
+	 */
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private Set<Compra> compras;
 
 	public Cliente() {
@@ -51,8 +63,6 @@ public class Cliente implements Serializable {
 	public void setCif(String cif) {
 		this.cif = cif;
 	}
-
-	
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -86,6 +96,9 @@ public class Cliente implements Serializable {
 		this.compras = compras;
 	}
 
+	/**
+	 * Añade una compra y mantiene la relación bidireccional
+	 */
 	public Compra addCompra(Compra compra) {
 		getCompras().add(compra);
 		compra.setCliente(this);
@@ -93,16 +106,19 @@ public class Cliente implements Serializable {
 		return compra;
 	}
 
+	/**
+	 * Elimina una compra y mantiene la relación bidireccional
+	 */
 	public Compra removeCompra(Compra compra) {
 		getCompras().remove(compra);
 		compra.setCliente(null);
 
 		return compra;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Cliente [ cif= " + cif + ", descripcion= " + descripcion + " ]"; 
+		return "Cliente [ cif= " + cif + ", descripcion= " + descripcion + " ]";
 	}
 
 }

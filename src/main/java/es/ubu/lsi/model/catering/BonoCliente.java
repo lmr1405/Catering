@@ -1,16 +1,22 @@
 package es.ubu.lsi.model.catering;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
- * The persistent class for the BONOCLIENTE database table.
- * 
+ * Entidad que representa la tabla BONOCLIENTE. Un bono define un tipo de
+ * descuento que puede aplicarse a varios clientes.
+ *
+ * @author Luis Menendez Ramos
  */
 @Entity
-@NamedQuery(name="Bonocliente.findAll", query="SELECT b FROM Bonocliente b")
+@NamedQuery(name = "BonoCliente.findAll", query = "SELECT b FROM BonoCliente b")
 public class BonoCliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +27,15 @@ public class BonoCliente implements Serializable {
 
 	private double descuento;
 
-	//bi-directional many-to-one association to Cliente
-	@OneToMany(mappedBy="bonocliente")
-	private List<Cliente> clientes;
+	/**
+	 * Clientes asociados a este bono. Relación bidireccional uno a muchos (un bono
+	 * puede tener varios clientes).
+	 */
+	@OneToMany(mappedBy = "bonoCliente")
+	private Set<Cliente> clientes;
 
 	public BonoCliente() {
+		clientes = new HashSet<>();
 	}
 
 	public long getIdbonocliente() {
@@ -52,14 +62,17 @@ public class BonoCliente implements Serializable {
 		this.descuento = descuento;
 	}
 
-	public List<Cliente> getClientes() {
+	public Set<Cliente> getClientes() {
 		return this.clientes;
 	}
 
-	public void setClientes(List<Cliente> clientes) {
+	public void setClientes(Set<Cliente> clientes) {
 		this.clientes = clientes;
 	}
 
+	/**
+	 * Añade un cliente al bono y mantiene la relación bidireccional.
+	 */
 	public Cliente addCliente(Cliente cliente) {
 		getClientes().add(cliente);
 		cliente.setBonoCliente(this);
@@ -67,11 +80,19 @@ public class BonoCliente implements Serializable {
 		return cliente;
 	}
 
+	/**
+	 * Elimina un cliente del bono y mantiene la relación bidireccional.
+	 */
 	public Cliente removeCliente(Cliente cliente) {
 		getClientes().remove(cliente);
 		cliente.setBonoCliente(null);
 
 		return cliente;
+	}
+
+	@Override
+	public String toString() {
+		return "BonoCliente [id=" + idbonocliente + ", bono=" + bono + ", descuento=" + descuento + "]";
 	}
 
 }

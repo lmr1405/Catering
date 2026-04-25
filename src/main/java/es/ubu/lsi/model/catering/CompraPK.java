@@ -4,31 +4,44 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the COMPRA database table.
+ * Clase que representa la clave primaria compuesta de la entidad Compra. Está
+ * formada por la fecha de la compra y el CIF del cliente.
  * 
+ * Es necesaria para mapear la clave primaria compuesta en JPA.
+ * 
+ * @author Luis Menendez Ramos
  */
 @Embeddable
 public class CompraPK implements Serializable {
-	//default serial version id, required for serializable classes.
+
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Fecha en la que se realiza la compra.
+	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private java.util.Date fecha;
 
-	@Column(insertable=false, updatable=false)
+	/**
+	 * CIF del cliente que realiza la compra.
+	 */
 	private String cif;
 
 	public CompraPK() {
 	}
+
 	public java.util.Date getFecha() {
 		return this.fecha;
 	}
+
 	public void setFecha(java.util.Date fecha) {
 		this.fecha = fecha;
 	}
+
 	public String getCif() {
 		return this.cif;
 	}
+
 	public void setCif(String cif) {
 		this.cif = cif;
 	}
@@ -40,10 +53,8 @@ public class CompraPK implements Serializable {
 		if (!(other instanceof CompraPK)) {
 			return false;
 		}
-		CompraPK castOther = (CompraPK)other;
-		return 
-			this.fecha.equals(castOther.fecha)
-			&& this.cif.equals(castOther.cif);
+		CompraPK castOther = (CompraPK) other;
+		return this.fecha.equals(castOther.fecha) && this.cif.equals(castOther.cif);
 	}
 
 	public int hashCode() {
@@ -51,7 +62,12 @@ public class CompraPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.fecha.hashCode();
 		hash = hash * prime + this.cif.hashCode();
-		
+
 		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return "CompraPK [fecha=" + fecha + ", cif=" + cif + "]";
 	}
 }

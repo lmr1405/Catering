@@ -1,17 +1,24 @@
 package es.ubu.lsi.model.catering;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
- * The persistent class for the MENU database table.
- * 
+ * Entidad que representa la tabla MENU. Define los menús disponibles en el
+ * catering junto con su precio.
+ *
+ * @author Luis Menendez Ramos
  */
 @Entity
-@NamedQuery(name="Menu.findAll", query="SELECT m FROM Menu m")
+@NamedQuery(name = "Menu.findAll", query = "SELECT m FROM Menu m")
 public class Menu implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -21,11 +28,14 @@ public class Menu implements Serializable {
 
 	private double precio;
 
-	//bi-directional many-to-one association to Compra
-	@OneToMany(mappedBy="menu")
-	private List<Compra> compras;
+	/**
+	 * Compras asociadas a este menú. Relación uno a muchos.
+	 */
+	@OneToMany(mappedBy = "menu")
+	private Set<Compra> compras;
 
 	public Menu() {
+		compras = new HashSet<>();
 	}
 
 	public long getIdmenu() {
@@ -52,11 +62,11 @@ public class Menu implements Serializable {
 		this.precio = precio;
 	}
 
-	public List<Compra> getCompras() {
+	public Set<Compra> getCompras() {
 		return this.compras;
 	}
 
-	public void setCompras(List<Compra> compras) {
+	public void setCompras(Set<Compra> compras) {
 		this.compras = compras;
 	}
 
@@ -67,11 +77,30 @@ public class Menu implements Serializable {
 		return compra;
 	}
 
+	/**
+	 * Añade una compra al menú y mantiene la relación bidireccional. También asigna
+	 * este menú a la compra.
+	 *
+	 * @param compra Compra a añadir
+	 * @return la compra añadida
+	 */
 	public Compra removeCompra(Compra compra) {
 		getCompras().remove(compra);
 		compra.setMenu(null);
 
 		return compra;
+	}
+
+	/**
+	 * Elimina una compra del menú y mantiene la relación bidireccional. También
+	 * elimina la referencia al menú en la compra.
+	 *
+	 * @param compra Compra a eliminar
+	 * @return la compra eliminada
+	 */
+	@Override
+	public String toString() {
+		return "Menu [id=" + idmenu + ", descripcion=" + descripcion + ", precio=" + precio + "]";
 	}
 
 }
