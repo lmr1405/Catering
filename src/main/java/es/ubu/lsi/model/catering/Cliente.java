@@ -1,8 +1,17 @@
 package es.ubu.lsi.model.catering;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -17,24 +26,22 @@ public class Cliente implements Serializable {
 	@Id
 	private String cif;
 
-	private String ciudad;
-
-	private String cp;
-
 	private String descripcion;
 
-	private String direccion;
+	@Embedded
+	private DireccionPostal direccionPostal;
 
 	//bi-directional many-to-one association to Bonocliente
 	@ManyToOne
 	@JoinColumn(name="IDBONOCLIENTE")
-	private Bonocliente bonocliente;
+	private BonoCliente bonoCliente;
 
 	//bi-directional many-to-one association to Compra
-	@OneToMany(mappedBy="cliente")
-	private List<Compra> compras;
+	@OneToMany(mappedBy="cliente", fetch = FetchType.LAZY)
+	private Set<Compra> compras;
 
 	public Cliente() {
+		compras = new HashSet<>();
 	}
 
 	public String getCif() {
@@ -45,21 +52,7 @@ public class Cliente implements Serializable {
 		this.cif = cif;
 	}
 
-	public String getCiudad() {
-		return this.ciudad;
-	}
-
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
-	}
-
-	public String getCp() {
-		return this.cp;
-	}
-
-	public void setCp(String cp) {
-		this.cp = cp;
-	}
+	
 
 	public String getDescripcion() {
 		return this.descripcion;
@@ -69,27 +62,27 @@ public class Cliente implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getDireccion() {
-		return this.direccion;
+	public BonoCliente getBonoCliente() {
+		return this.bonoCliente;
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setBonoCliente(BonoCliente bonoCliente) {
+		this.bonoCliente = bonoCliente;
 	}
 
-	public Bonocliente getBonocliente() {
-		return this.bonocliente;
+	public DireccionPostal getDireccionPostal() {
+		return direccionPostal;
 	}
 
-	public void setBonocliente(Bonocliente bonocliente) {
-		this.bonocliente = bonocliente;
+	public void setDireccionPostal(DireccionPostal direccionPostal) {
+		this.direccionPostal = direccionPostal;
 	}
 
-	public List<Compra> getCompras() {
+	public Set<Compra> getCompras() {
 		return this.compras;
 	}
 
-	public void setCompras(List<Compra> compras) {
+	public void setCompras(Set<Compra> compras) {
 		this.compras = compras;
 	}
 
@@ -105,6 +98,11 @@ public class Cliente implements Serializable {
 		compra.setCliente(null);
 
 		return compra;
+	}
+	
+	@Override
+	public String toString() {
+		return "Cliente [ cif= " + cif + ", descripcion= " + descripcion + " ]"; 
 	}
 
 }

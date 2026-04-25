@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Bonocliente.findAll", query="SELECT b FROM Bonocliente b")
-public class Bonocliente implements Serializable {
+public class BonoCliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -25,7 +25,7 @@ public class Bonocliente implements Serializable {
 	@OneToMany(mappedBy="bonocliente")
 	private List<Cliente> clientes;
 
-	public Bonocliente() {
+	public BonoCliente() {
 	}
 
 	public long getIdbonocliente() {
@@ -62,14 +62,14 @@ public class Bonocliente implements Serializable {
 
 	public Cliente addCliente(Cliente cliente) {
 		getClientes().add(cliente);
-		cliente.setBonocliente(this);
+		cliente.setBonoCliente(this);
 
 		return cliente;
 	}
 
 	public Cliente removeCliente(Cliente cliente) {
 		getClientes().remove(cliente);
-		cliente.setBonocliente(null);
+		cliente.setBonoCliente(null);
 
 		return cliente;
 	}
