@@ -5,6 +5,11 @@
 	<persistence-unit name="Catering">
 		<!-- Hibernate provider. -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>es.ubu.lsi.model.catering.Bonocliente</class>
+		<class>es.ubu.lsi.model.catering.Cliente</class>
+		<class>es.ubu.lsi.model.catering.Compra</class>
+		<class>es.ubu.lsi.model.catering.CompraPK</class>
+		<class>es.ubu.lsi.model.catering.Menu</class>
 		
 		<!-- Eclipse Link provider (other provider) -->
 		<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->

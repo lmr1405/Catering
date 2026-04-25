@@ -1,9 +1,9 @@
 package es.ubu.lsi.service.catering;
 
+import java.awt.Menu;
 import java.util.Date;
 import java.util.List;
 
-import es.ubu.lsi.model.catering.Menu;
 import es.ubu.lsi.service.PersistenceException;
 
 /**
