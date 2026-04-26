@@ -122,6 +122,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 
 		} catch (Exception e) {
 			rollbackTransaction(em);
+			logError(e);
 			throw e;
 		} finally {
 			close(em);
@@ -172,6 +173,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 			
 		}catch(Exception e) {
 			rollbackTransaction(em);
+			logError(e);
 			throw e;
 		}finally {
 			close(em);
@@ -219,11 +221,21 @@ public class ServiceImpl extends PersistenceService implements Service {
 			commitTransaction(em);
 		} catch(Exception e) {
 			rollbackTransaction(em);
+			logError(e);
 			throw e;
 		} finally {
 			close(em);
 		}
 		return menus;
+	}
+	
+	private void logError(Exception e) {
+		if (e instanceof IncidentException) {
+			IncidentException ie = (IncidentException) e;
+			logger.error("Error de transacción clasificado: {}", ie.getError().getText());
+		}else {
+			logger.error("Error técnico en la transacción: {}", e.getMessage());
+		}
 	}
 
 }
