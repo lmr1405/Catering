@@ -196,6 +196,12 @@ public class ServiceImpl extends PersistenceService implements Service {
 			em = createSession();
 			beginTransaction(em);
 			
+			MenuDAO menuDao = new MenuDAO(em);
+			Menu menu = menuDao.findById(idMenu);
+			if(menu == null) {
+				throw new IncidentException(IncidentError.NOT_EXISTS_MENU);
+			}
+			
 			// creamos un grafo de entidades para la carga completa del menu
 			eg = em.createEntityGraph(Menu.class);
 			// incluimos la coleccion de compra asociada a cada menu
