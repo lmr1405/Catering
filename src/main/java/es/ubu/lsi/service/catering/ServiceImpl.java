@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.Subgraph;
 
 import org.slf4j.Logger;
@@ -189,6 +190,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 	public List<Menu> consultarMenu(long idMenu) throws PersistenceException {
 		EntityManager em = null;
 		EntityGraph<Menu> eg = null;
+		List<Menu> menus = null;
 		
 		try {
 			em = createSession();
@@ -202,6 +204,11 @@ public class ServiceImpl extends PersistenceService implements Service {
 			Subgraph<Compra> sub = eg.addSubgraph("compras");
 			sub.addAttributeNodes("cliente");
 			
+			Query query = em.createNamedQuery("Menu.findAll");
+			query.setHint("javax.persistence.fetchgraph", eg);
+			menus = (List<Menu>) query.getResultList();	
+			
+			
 			commitTransaction(em);
 		} catch(Exception e) {
 			rollbackTransaction(em);
@@ -209,7 +216,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 		} finally {
 			close(em);
 		}
-		return null;
+		return menus;
 	}
 
 }
