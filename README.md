@@ -34,4 +34,7 @@ ya que elimina se evita cast innecesarios y warnings, mejorando la claridad del 
 Referencia:
 https://docs.oracle.com/javaee/7/api/javax/persistence/TypedQuery.html  
 https://stackoverflow.com/questions/17306655/using-the-jpa-criteria-api-can-you-do-a-fetch-join-that-results-in-only-one-joi
-
+  
+**Incorporación de DATE_NULL en IncidentError**  
+Me he tomado la libertad de añadir un enum en IncidentError con el valor DATE_NULL para representar de forma más especifica  
+el caso de fecha nula, ya que no existía, y para poder así mostrar por pantalla el texto igual que en el del enunciado.  

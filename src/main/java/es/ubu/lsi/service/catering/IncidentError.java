@@ -17,7 +17,8 @@ public enum IncidentError {
 	ERROR_IN_DATE("Fecha y/o hora incorrecta"),
 	NEGATIVE_OR_ZERO_PEOPLE("Número de personas cero o negativas"),
 	NEGATIVE_OR_ZERO_IMPORT("Importe de la compra cero o negativa"),
-	EXISTS_PURCHASE("Compra ya existente");
+	EXISTS_PURCHASE("Compra ya existente"),
+	DATE_NULL("fecha pasada por parámetro nula");
 	
 	/** Text. */
 	private String text;

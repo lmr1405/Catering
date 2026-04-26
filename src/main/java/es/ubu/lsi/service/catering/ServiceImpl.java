@@ -55,7 +55,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 
 			// validar que la fecha no sea nula
 			if (fecha == null)
-				throw new IncidentException(IncidentError.ERROR_IN_DATE);
+				throw new IncidentException(IncidentError.DATE_NULL);
 			//Validar que el numero de personas sea mayor que cero
 			if (personas <= 0 )
 				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_PEOPLE);
