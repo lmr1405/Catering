@@ -2,6 +2,7 @@ package es.ubu.lsi.service.catering;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -135,9 +136,34 @@ public class ServiceImpl extends PersistenceService implements Service {
 	@Override
 	public float quitarDescuento(String cif) throws PersistenceException {
 		EntityManager em = null;
+		double total = 0;
 		try {
 			em = createSession();
 			beginTransaction(em);
+			
+			ClienteDAO clienteDao = new ClienteDAO(em);
+			Cliente cliente = clienteDao.findById(cif);
+			// validamos que el cliente existe
+			if (cliente == null) {
+				throw new IncidentException(IncidentError.NOT_EXISTS_CLIENT);
+			}
+			
+			// obtenemos todas las compra del cliente
+			Set<Compra> comprasSet = cliente.getCompras();
+			for(Compra c : comprasSet) {
+				// precio original sin descuento
+				double precioOriginal = c.getPersonas() * c.getMenu().getPrecio();
+				// precio actual
+				double precioActual = c.getImporte();
+				// diferencia entre el importe original y el actual
+				double diferencia = precioOriginal - precioActual;
+				// acumulamos la diferencia total
+				total += diferencia;
+				// actualizamos la compra
+				c.setImporte(precioOriginal);
+			}
+			// eliminamos el descuento al cliente
+			cliente.setBonoCliente(null);			
 			
 			commitTransaction(em);
 			
@@ -147,7 +173,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 		}finally {
 			close(em);
 		}
-		return 0;
+		return (float) total;
 	}
 
 	@Override
