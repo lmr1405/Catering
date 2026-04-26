@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import es.ubu.lsi.dao.catering.ClienteDAO;
 import es.ubu.lsi.dao.catering.CompraDAO;
 import es.ubu.lsi.dao.catering.MenuDAO;
+import es.ubu.lsi.model.catering.BonoCliente;
 import es.ubu.lsi.model.catering.Cliente;
 import es.ubu.lsi.model.catering.Compra;
 import es.ubu.lsi.model.catering.CompraPK;
@@ -55,7 +56,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 			if (personas <= 0 )
 				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_PEOPLE);
 			
-			// Cramos los DAO
+			// Creamos los DAO
 			ClienteDAO clienteDao = new ClienteDAO(em);
 			MenuDAO menuDao = new MenuDAO(em);
 			CompraDAO compraDao = new CompraDAO(em);
@@ -84,8 +85,33 @@ public class ServiceImpl extends PersistenceService implements Service {
 				throw new IncidentException(IncidentError.EXISTS_PURCHASE);
 			}
 			
+			// calculamos el importe
+			double precioMenu = menu.getPrecio();
+			double importe = personas * precioMenu;
 			
+			// aplicamos descuento
+			BonoCliente bonoCliente = cliente.getBonoCliente();
+			double descuento = 0;
+			if (bonoCliente != null) {
+				descuento = bonoCliente.getDescuento();
+			}
+			double importeFinal = importe - (importe * (descuento / 100));
+			// validamos el importeFinal
+			if (importeFinal <=0) {
+				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_IMPORT);
+			}
 			
+			// Creamos la compra
+			Compra compra = new Compra();
+			// Asignamos todos los datos a la compra
+			compra.setId(compraPk);
+			compra.setCliente(cliente);
+			compra.setMenu(menu);
+			compra.setPersonas(personas);
+			compra.setImporte(importeFinal);
+			
+			// Guardamos en la base de datos
+			compraDao.persist(compra);
 			
 
 			commitTransaction(em);
