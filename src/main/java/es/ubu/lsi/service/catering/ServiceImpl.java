@@ -20,17 +20,33 @@ public class ServiceImpl extends PersistenceService implements Service {
 
 	}
 
+	/**
+	 * Insertar una nueva compra en el sistema
+	 * 
+	 * Realiza validaciones básicas de los parametros de entrada antes de acceder a
+	 * la base de datos.
+	 * 
+	 * @param fecha fecha de la compra
+	 * @param cif identificador del cliente
+	 * @param idMenu identificador del menu
+	 * @param personas numero de personas asociada a la compra
+	 * @throws PersistenceException si se produce un error en la persistencia
+	 * @throws IncidentException si los datos de entrada no son valido
+	 */
 	@Override
 	public void insertarCompra(Date fecha, String cif, long idMenu, long personas) throws PersistenceException {
 		EntityManager em = null;
 		try {
+			// Crear el EntityManager para gestionar la sesion con la base de datos
 			em = createSession();
+			// Iniciar la transaccion
 			beginTransaction(em);
 
+			// validar que la fecha no sea nula
 			if (fecha == null)
 				throw new IncidentException(IncidentError.ERROR_IN_DATE);
-			
-			if (personas < 0 )
+			//Validar que el numero de personas sea mayor que cero
+			if (personas <= 0 )
 				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_PEOPLE);
 
 			commitTransaction(em);
