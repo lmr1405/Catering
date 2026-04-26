@@ -12,12 +12,12 @@ import es.ubu.lsi.model.catering.Menu;
 import es.ubu.lsi.service.PersistenceException;
 import es.ubu.lsi.service.PersistenceService;
 
-public class ServiceImpl extends PersistenceService implements Service{
-	
+public class ServiceImpl extends PersistenceService implements Service {
+
 	private static final Logger logger = LoggerFactory.getLogger(ServiceImpl.class);
-	
+
 	public ServiceImpl() {
-		
+
 	}
 
 	@Override
@@ -26,16 +26,22 @@ public class ServiceImpl extends PersistenceService implements Service{
 		try {
 			em = createSession();
 			beginTransaction(em);
-			// cuerpo
-			commitTransaction(em);
+
+			if (fecha == null)
+				throw new IncidentException(IncidentError.ERROR_IN_DATE);
 			
-		}catch(Exception e) {
+			if (personas < 0 )
+				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_PEOPLE);
+
+			commitTransaction(em);
+
+		} catch (Exception e) {
 			rollbackTransaction(em);
 			throw e;
-		}finally {
+		} finally {
 			close(em);
 		}
-		
+
 	}
 
 	@Override
@@ -49,7 +55,5 @@ public class ServiceImpl extends PersistenceService implements Service{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }
