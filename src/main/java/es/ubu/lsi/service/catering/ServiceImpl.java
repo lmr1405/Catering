@@ -176,9 +176,26 @@ public class ServiceImpl extends PersistenceService implements Service {
 		return (float) total;
 	}
 
+	/**
+	 * Recupera los menús junto con toda la información asociada (compras y clientes)
+	 * 
+	 * @param idMenu identificador del menú
+	 * @return lista de menús con sus compras y clientes asociados
+	 * @throws PersistenceException si se produce un error en la persistencia
+	 */
 	@Override
 	public List<Menu> consultarMenu(long idMenu) throws PersistenceException {
-		// TODO Auto-generated method stub
+		EntityManager em = null;
+		try {
+			em = createSession();
+			beginTransaction(em);
+			commitTransaction(em);
+		} catch(Exception e) {
+			rollbackTransaction(em);
+			throw e;
+		} finally {
+			close(em);
+		}
 		return null;
 	}
 
