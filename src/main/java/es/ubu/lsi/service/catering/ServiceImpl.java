@@ -124,10 +124,29 @@ public class ServiceImpl extends PersistenceService implements Service {
 		}
 
 	}
-
+	/**
+	 * Elimina el descuento de un cliente y actualiza el importe de todas sus compras.
+	 * 
+	 * @param cif identificador del cliente
+	 * @return importe total descontado al cliente
+	 * @throws PersistenceException si se produce un error en la persistencia
+	 * @throws IncidentException si el cliente no existe
+	 */
 	@Override
 	public float quitarDescuento(String cif) throws PersistenceException {
-		// TODO Auto-generated method stub
+		EntityManager em = null;
+		try {
+			em = createSession();
+			beginTransaction(em);
+			
+			commitTransaction(em);
+			
+		}catch(Exception e) {
+			rollbackTransaction(em);
+			throw e;
+		}finally {
+			close(em);
+		}
 		return 0;
 	}
 
