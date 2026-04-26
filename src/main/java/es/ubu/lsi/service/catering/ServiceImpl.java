@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.Subgraph;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,9 +188,20 @@ public class ServiceImpl extends PersistenceService implements Service {
 	@Override
 	public List<Menu> consultarMenu(long idMenu) throws PersistenceException {
 		EntityManager em = null;
+		EntityGraph<Menu> eg = null;
+		
 		try {
 			em = createSession();
 			beginTransaction(em);
+			
+			// creamos un grafo de entidades para la carga completa del menu
+			eg = em.createEntityGraph(Menu.class);
+			// incluimos la coleccion de compra asociada a cada menu
+			eg.addAttributeNodes("compras");
+			// definimos un subgrafo para cargar el cliente asociado a cada compra
+			Subgraph<Compra> sub = eg.addSubgraph("compras");
+			sub.addAttributeNodes("cliente");
+			
 			commitTransaction(em);
 		} catch(Exception e) {
 			rollbackTransaction(em);
