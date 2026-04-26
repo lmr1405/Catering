@@ -6,8 +6,8 @@ import java.util.Set;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.Subgraph;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,7 +166,7 @@ public class ServiceImpl extends PersistenceService implements Service {
 				c.setImporte(precioOriginal);
 			}
 			// eliminamos el descuento al cliente
-			cliente.setBonoCliente(null);			
+			//cliente.setBonoCliente(null);			
 			
 			commitTransaction(em);
 			
@@ -204,7 +204,8 @@ public class ServiceImpl extends PersistenceService implements Service {
 			Subgraph<Compra> sub = eg.addSubgraph("compras");
 			sub.addAttributeNodes("cliente");
 			
-			Query query = em.createNamedQuery("Menu.findAll");
+			TypedQuery<Menu> query = em.createNamedQuery("Menu.findAll", Menu.class);
+			//Query query = em.createNamedQuery("Menu.findAll");
 			query.setHint("javax.persistence.fetchgraph", eg);
 			menus = (List<Menu>) query.getResultList();	
 			
