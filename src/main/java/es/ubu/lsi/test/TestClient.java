@@ -86,7 +86,7 @@ public class TestClient {
 	 * Test service using JDBC and JPA.
 	 */
 	static void testService() throws Exception {
-		//createTables();
+		createTables();
 		Service implService = null;
 		try {
 			// JPA Service
