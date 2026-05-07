@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/user_lib_JAP"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/user_lib_jpa"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
