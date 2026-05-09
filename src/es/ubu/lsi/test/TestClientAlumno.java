@@ -36,6 +36,7 @@ public class TestClientAlumno {
 		System.out.println("**** TEST ADICIONALES CLASE ALUMNO *****");
 		
 		comprobarRollbackTransaccion(implService);	
+		consultarMenuExistente(implService);
 		
 		
 	}
@@ -93,6 +94,20 @@ public class TestClientAlumno {
 		} finally {
 
 			cerrarRecursos(con, st, rs);
+		}
+	}
+	
+	
+	private static void consultarMenuExistente(Service implService) {
+		try {
+			System.out.println("Consultar menú existente");
+			if(!implService.consultarMenu(1).isEmpty()) {
+				System.out.println("\tOK menú recuperado correctamente");
+			}else {
+				System.out.println("\tError el menu existe pero la lista está vacía");
+			}
+		}catch (Exception ex) {
+			logger.error("ERROR en consulta de menú: " +ex.getLocalizedMessage());
 		}
 	}
 	
