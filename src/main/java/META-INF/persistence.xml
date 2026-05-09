@@ -10,6 +10,7 @@
 		<class>es.ubu.lsi.model.catering.Compra</class>
 		<class>es.ubu.lsi.model.catering.CompraPK</class>
 		<class>es.ubu.lsi.model.catering.Menu</class>
+		<class>es.ubu.lsi.model.catering.DireccionPostal</class>
 		
 		<!-- Eclipse Link provider (other provider) -->
 		<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
