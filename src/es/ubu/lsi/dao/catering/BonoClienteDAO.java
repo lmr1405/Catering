@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import es.ubu.lsi.dao.JpaDAO;
 import es.ubu.lsi.model.catering.BonoCliente;
 
-public class BonoClienteDAO extends JpaDAO<BonoCliente,Long>{
-	
+public class BonoClienteDAO extends JpaDAO<BonoCliente, Long> {
+
 	public BonoClienteDAO(EntityManager em) {
 		super(em);
 	}

@@ -37,12 +37,12 @@ public class ServiceImpl extends PersistenceService implements Service {
 	 * Realiza validaciones básicas de los parametros de entrada antes de acceder a
 	 * la base de datos.
 	 * 
-	 * @param fecha fecha de la compra
-	 * @param cif identificador del cliente
-	 * @param idMenu identificador del menu
+	 * @param fecha    fecha de la compra
+	 * @param cif      identificador del cliente
+	 * @param idMenu   identificador del menu
 	 * @param personas numero de personas asociada a la compra
 	 * @throws PersistenceException si se produce un error en la persistencia
-	 * @throws IncidentException si los datos de entrada no son valido
+	 * @throws IncidentException    si los datos de entrada no son valido
 	 */
 	@Override
 	public void insertarCompra(Date fecha, String cif, long idMenu, long personas) throws PersistenceException {
@@ -56,43 +56,42 @@ public class ServiceImpl extends PersistenceService implements Service {
 			// validar que la fecha no sea nula
 			if (fecha == null)
 				throw new IncidentException(IncidentError.DATE_NULL);
-			//Validar que el numero de personas sea mayor que cero
-			if (personas <= 0 )
+			// Validar que el numero de personas sea mayor que cero
+			if (personas <= 0)
 				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_PEOPLE);
-			
+
 			// Creamos los DAO
 			ClienteDAO clienteDao = new ClienteDAO(em);
 			MenuDAO menuDao = new MenuDAO(em);
 			CompraDAO compraDao = new CompraDAO(em);
-			
-			
+
 			Cliente cliente = clienteDao.findById(cif);
 			// Comprobamos que el cliente existe
 			if (cliente == null) {
 				throw new IncidentException(IncidentError.NOT_EXISTS_CLIENT);
 			}
-			
+
 			Menu menu = menuDao.findById(idMenu);
 			// Comprobamos que el menu existe
 			if (menu == null) {
 				throw new IncidentException(IncidentError.NOT_EXISTS_MENU);
 			}
-			
+
 			// creamos las claves
 			CompraPK compraPk = new CompraPK();
 			compraPk.setFecha(fecha);
 			compraPk.setCif(cif);
-			
+
 			Compra compraExistente = compraDao.findById(compraPk);
 			// validamos que la compra no existe
 			if (compraExistente != null) {
 				throw new IncidentException(IncidentError.EXISTS_PURCHASE);
 			}
-			
+
 			// calculamos el importe
 			double precioMenu = menu.getPrecio();
 			double importe = personas * precioMenu;
-			
+
 			// aplicamos descuento
 			BonoCliente bonoCliente = cliente.getBonoCliente();
 			double descuento = 0;
@@ -101,10 +100,10 @@ public class ServiceImpl extends PersistenceService implements Service {
 			}
 			double importeFinal = importe - (importe * (descuento / 100));
 			// validamos el importeFinal
-			if (importeFinal <=0) {
+			if (importeFinal <= 0) {
 				throw new IncidentException(IncidentError.NEGATIVE_OR_ZERO_IMPORT);
 			}
-			
+
 			// Creamos la compra
 			Compra compra = new Compra();
 			// Asignamos todos los datos a la compra
@@ -113,10 +112,9 @@ public class ServiceImpl extends PersistenceService implements Service {
 			compra.setMenu(menu);
 			compra.setPersonas(personas);
 			compra.setImporte(importeFinal);
-			
+
 			// Guardamos en la base de datos
 			compraDao.persist(compra);
-			
 
 			commitTransaction(em);
 
@@ -129,13 +127,15 @@ public class ServiceImpl extends PersistenceService implements Service {
 		}
 
 	}
+
 	/**
-	 * Elimina el descuento de un cliente y actualiza el importe de todas sus compras.
+	 * Elimina el descuento de un cliente y actualiza el importe de todas sus
+	 * compras.
 	 * 
 	 * @param cif identificador del cliente
 	 * @return importe total descontado al cliente
 	 * @throws PersistenceException si se produce un error en la persistencia
-	 * @throws IncidentException si el cliente no existe
+	 * @throws IncidentException    si el cliente no existe
 	 */
 	@Override
 	public float quitarDescuento(String cif) throws PersistenceException {
@@ -144,17 +144,17 @@ public class ServiceImpl extends PersistenceService implements Service {
 		try {
 			em = createSession();
 			beginTransaction(em);
-			
+
 			ClienteDAO clienteDao = new ClienteDAO(em);
 			Cliente cliente = clienteDao.findById(cif);
 			// validamos que el cliente existe
 			if (cliente == null) {
 				throw new IncidentException(IncidentError.NOT_EXISTS_CLIENT);
 			}
-			
+
 			// obtenemos todas las compra del cliente
 			Set<Compra> comprasSet = cliente.getCompras();
-			for(Compra c : comprasSet) {
+			for (Compra c : comprasSet) {
 				// precio original sin descuento
 				double precioOriginal = c.getPersonas() * c.getMenu().getPrecio();
 				// precio actual
@@ -167,22 +167,23 @@ public class ServiceImpl extends PersistenceService implements Service {
 				c.setImporte(precioOriginal);
 			}
 			// eliminamos el descuento al cliente
-			//cliente.setBonoCliente(null);			
-			
+			// cliente.setBonoCliente(null);
+
 			commitTransaction(em);
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			rollbackTransaction(em);
 			logError(e);
 			throw e;
-		}finally {
+		} finally {
 			close(em);
 		}
 		return (float) total;
 	}
 
 	/**
-	 * Recupera los menús junto con toda la información asociada (compras y clientes)
+	 * Recupera los menús junto con toda la información asociada (compras y
+	 * clientes)
 	 * 
 	 * @param idMenu identificador del menú
 	 * @return lista de menús con sus compras y clientes asociados
@@ -193,17 +194,17 @@ public class ServiceImpl extends PersistenceService implements Service {
 		EntityManager em = null;
 		EntityGraph<Menu> eg = null;
 		List<Menu> menus = null;
-		
+
 		try {
 			em = createSession();
 			beginTransaction(em);
-			
+
 			MenuDAO menuDao = new MenuDAO(em);
 			Menu menu = menuDao.findById(idMenu);
-			if(menu == null) {
+			if (menu == null) {
 				throw new IncidentException(IncidentError.NOT_EXISTS_MENU);
 			}
-			
+
 			// creamos un grafo de entidades para la carga completa del menu
 			eg = em.createEntityGraph(Menu.class);
 			// incluimos la coleccion de compra asociada a cada menu
@@ -211,15 +212,14 @@ public class ServiceImpl extends PersistenceService implements Service {
 			// definimos un subgrafo para cargar el cliente asociado a cada compra
 			Subgraph<Compra> sub = eg.addSubgraph("compras");
 			sub.addAttributeNodes("cliente");
-			
+
 			TypedQuery<Menu> query = em.createNamedQuery("Menu.findAll", Menu.class);
-			//Query query = em.createNamedQuery("Menu.findAll");
+			// Query query = em.createNamedQuery("Menu.findAll");
 			query.setHint("javax.persistence.fetchgraph", eg);
-			menus = (List<Menu>) query.getResultList();	
-			
-			
+			menus = (List<Menu>) query.getResultList();
+
 			commitTransaction(em);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			rollbackTransaction(em);
 			logError(e);
 			throw e;
@@ -228,12 +228,12 @@ public class ServiceImpl extends PersistenceService implements Service {
 		}
 		return menus;
 	}
-	
+
 	private void logError(Exception e) {
 		if (e instanceof IncidentException) {
 			IncidentException ie = (IncidentException) e;
 			logger.error("Error de transacción clasificado: {}", ie.getError().getText());
-		}else {
+		} else {
 			logger.error("Error técnico en la transacción: {}", e.getMessage());
 		}
 	}

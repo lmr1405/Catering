@@ -11,12 +11,12 @@ import javax.persistence.Persistence;
  * @author <a href="mailto:rmartico@ubu.es">Raúl Marticorena</a>
  * @author <a href="mailto:mmabad@ubu.es">Mario Martínez</a>
  * @author <a href="mailto:operez@ubu.es">Óscar Pérez</a>
- * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a> 
+ * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a>
  * @since 1.0
  */
 public class PersistenceFactorySingleton {
 
-	/** 
+	/**
 	 * Name of the persistence-unit.
 	 */
 	// WARNING: review with your current persistence.xml
@@ -24,7 +24,7 @@ public class PersistenceFactorySingleton {
 
 	/** Singleton variable. */
 	private EntityManagerFactory emf;
-	
+
 	/** Singleton instance. */
 	private static PersistenceFactorySingleton singleton = new PersistenceFactorySingleton();
 

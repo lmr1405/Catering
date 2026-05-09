@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
  * @author <a href="mailto:rmartico@ubu.es">Raúl Marticorena</a>
  * @author <a href="mailto:mmabad@ubu.es">Mario Martínez</a>
  * @author <a href="mailto:operez@ubu.es">Óscar Pérez</a>
- * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a> 
+ * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a>
  * @since 1.0
  */
 public class PersistenceService {
@@ -22,8 +22,7 @@ public class PersistenceService {
 	/**
 	 * Rollbacks transaction.
 	 * 
-	 * @param em
-	 *            entity manager
+	 * @param em entity manager
 	 */
 	protected void rollbackTransaction(EntityManager em) {
 		if (em != null) {
@@ -36,8 +35,7 @@ public class PersistenceService {
 	/**
 	 * Commits transaction.
 	 * 
-	 * @param em
-	 *            entity manager
+	 * @param em entity manager
 	 */
 	protected void commitTransaction(EntityManager em) {
 		if (em != null) {
@@ -50,8 +48,7 @@ public class PersistenceService {
 	/**
 	 * Begins transaction.
 	 * 
-	 * @param em
-	 *            entity manager
+	 * @param em entity manager
 	 */
 	protected void beginTransaction(EntityManager em) {
 		if (em != null) {
@@ -64,8 +61,7 @@ public class PersistenceService {
 	/**
 	 * Closes resources.
 	 * 
-	 * @param em
-	 *            entity manager
+	 * @param em entity manager
 	 */
 	protected void close(EntityManager em) {
 		if (em != null && em.isOpen()) {
@@ -73,6 +69,6 @@ public class PersistenceService {
 		} else {
 			throw new IllegalArgumentException("Entity manager with null value or closed.");
 		}
-		
+
 	}
 }

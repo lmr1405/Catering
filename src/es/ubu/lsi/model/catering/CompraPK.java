@@ -1,7 +1,10 @@
 package es.ubu.lsi.model.catering;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Clase que representa la clave primaria compuesta de la entidad Compra. Está

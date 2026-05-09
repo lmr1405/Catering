@@ -8,7 +8,7 @@ import es.ubu.lsi.dao.JpaDAO;
 import es.ubu.lsi.model.catering.Compra;
 import es.ubu.lsi.model.catering.CompraPK;
 
-public class CompraDAO extends JpaDAO<Compra ,CompraPK>{
+public class CompraDAO extends JpaDAO<Compra, CompraPK> {
 
 	public CompraDAO(EntityManager em) {
 		super(em);

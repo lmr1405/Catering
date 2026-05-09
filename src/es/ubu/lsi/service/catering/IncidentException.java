@@ -5,7 +5,7 @@ import es.ubu.lsi.service.PersistenceException;
 /**
  * Reservation exception.
  * 
- * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a> 
+ * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a>
  * @since 1.0
  *
  */
@@ -20,8 +20,7 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            text
+	 * @param text text
 	 */
 	public IncidentException(String text) {
 		super(text);
@@ -30,8 +29,7 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param error
-	 *            error code
+	 * @param error error code
 	 */
 	public IncidentException(IncidentError error) {
 		super(error.getText());
@@ -41,10 +39,8 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            text
-	 * @param ex
-	 *            exception
+	 * @param text text
+	 * @param ex   exception
 	 */
 	public IncidentException(String text, Exception ex) {
 		super(text, ex);
@@ -53,12 +49,9 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            text
-	 * @param error
-	 *            error code
-	 * @param ex
-	 *            exception
+	 * @param text  text
+	 * @param error error code
+	 * @param ex    exception
 	 */
 	public IncidentException(String text, IncidentError error, Exception ex) {
 		super(text, ex);
@@ -68,10 +61,8 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            text
-	 * @param error
-	 *            error code
+	 * @param text  text
+	 * @param error error code
 	 */
 	public IncidentException(String text, IncidentError error) {
 		super(text);
@@ -81,10 +72,8 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Constructor.
 	 * 
-	 * @param error
-	 *            error code
-	 * @param ex
-	 *            exception
+	 * @param error error code
+	 * @param ex    exception
 	 */
 	public IncidentException(IncidentError error, Exception ex) {
 		super(ex);
@@ -104,8 +93,7 @@ public class IncidentException extends PersistenceException {
 	/**
 	 * Sets error code.
 	 * 
-	 * @param error
-	 *            error
+	 * @param error error
 	 */
 	private void setError(IncidentError error) {
 		this.error = error;

@@ -25,7 +25,7 @@ import es.ubu.lsi.test.util.PoolDeConexiones;
 /**
  * Test client.
  * 
- * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a> 
+ * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a>
  * @since 1.0
  */
 public class TestClient {
@@ -66,7 +66,7 @@ public class TestClient {
 	static public void init() {
 		try {
 			// Acuerdate de q la primera vez tienes que crear el .bindings con:
-			//PoolDeConexiones.reconfigurarPool();
+			// PoolDeConexiones.reconfigurarPool();
 			// Inicializacion de Pool
 			pool = PoolDeConexiones.getInstance();
 		} catch (Exception e) {
@@ -93,36 +93,30 @@ public class TestClient {
 			implService = new ServiceImpl();
 			System.out.println("Framework y servicio iniciado...");
 
-			
 			insertarCompraCorrecta(implService);
-			
+
 			insertarCompraFechaNula(implService);
-			
+
 			insertarCompraClienteInexistente(implService);
-			
+
 			insertarCompraMenuInexistente(implService);
-			
+
 			insertarCompraCompraExistente(implService);
-			
-			
+
 			createTables();
 			insertarCompraImporteNegativo(implService);
-			
+
 			insertarCompraPersonasNegativas(implService);
 			createTables();
 			quitarDescuentoCorrecto(implService);
-			
-			quitarDescuentoClienteNoExistente(implService);
-			
 
-					
+			quitarDescuentoClienteNoExistente(implService);
+
 			// comprueba que la consulta de menus carga todos los datos
-			consultarMenusConMenuInexistente(implService);			
-			
+			consultarMenusConMenuInexistente(implService);
+
 			// comprueba que la consulta de menus carga todos los datos
 			consultarMenusUsandoGrafo(implService);
-			
-
 
 		} catch (Exception e) { // for testing code...
 			logger.error(e.getMessage());
@@ -131,17 +125,17 @@ public class TestClient {
 			pool = null;
 		}
 	} // testClient
-	
-	
+
 	/**
-	 * Intenta insertar una compra con un cliente con un numero de personas negativas
+	 * Intenta insertar una compra con un cliente con un numero de personas
+	 * negativas
 	 * 
 	 * @param implService servicio
 	 */
 	private static void insertarCompraPersonasNegativas(Service implService) {
 		try {
 			System.out.println("Insertar Compra con Personas 0 o negativas");
-			implService.insertarCompra(dateformat.parse("22/04/2025 23:00"), "B10000000", 4,0);
+			implService.insertarCompra(dateformat.parse("22/04/2025 23:00"), "B10000000", 4, 0);
 			System.out.println("\tERROR NO detecta que el número de personas es incorrecto y finaliza la transacción");
 
 		} catch (IncidentException ex) {
@@ -153,12 +147,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Intenta insertar una compra con un cliente con un descuento de mas del 100%
 	 * 
@@ -168,7 +163,8 @@ public class TestClient {
 		try {
 			System.out.println("Insertar Compra con Importe negativo o cero");
 			implService.insertarCompra(dateformat.parse("22/04/2025 23:00"), "D10000000", 4, 3);
-			System.out.println("\tERROR NO detecta que el importe de la compra será negativo o cero y finaliza la transacción");
+			System.out.println(
+					"\tERROR NO detecta que el importe de la compra será negativo o cero y finaliza la transacción");
 
 		} catch (IncidentException ex) {
 			if (ex.getError() == IncidentError.NEGATIVE_OR_ZERO_IMPORT) {
@@ -179,12 +175,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
-	}			
-	
+	}
+
 	/**
 	 * Intenta quitar el descuento a un cliente no existente
 	 * 
@@ -205,13 +202,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de quitarDescuento con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en quitarDescuento ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de quitarDescuento con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de quitarDescuento con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en quitarDescuento ", ex);
 		}
-	}		
-	
-	
+	}
+
 	/**
 	 * Intenta insertar unca compra con un cliente y fecha existene.
 	 * 
@@ -232,12 +229,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
-	}		
-	
+	}
+
 	/**
 	 * Intenta insertar unca compra con un menu inexistente.
 	 * 
@@ -258,13 +256,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
-	}		
-	
-	
+	}
+
 	/**
 	 * Intenta insertar unca compra con un cliente inexistente.
 	 * 
@@ -285,12 +283,13 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Intenta insertar cmpra con fecha nula.
 	 * 
@@ -307,13 +306,12 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en insertarCompra ", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR GRAVE de programación en transacción de insertarCompra con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en insertarCompra ", ex);
 		}
 	}
-	
-
 
 	/**
 	 * quitar descuento correctamente a conductor con dos incidencias.
@@ -329,16 +327,14 @@ public class TestClient {
 		try {
 			System.out.print("Quitar descuento del cliente...\n");
 			devuelto = implService.quitarDescuento("B10000000");
-			if(devuelto != 0) {
+			if (devuelto != 0) {
 				System.out.println("\tERROR valor devuelto por descuento incorrecto");
-			}else {
+			} else {
 				System.out.println("\tOK valor devuelto por descuento correcto");
 			}
-				
-			
+
 			con = pool.getConnection();
 
-			
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT count(0) FROM compra where cif = 'B10000000'");
 
@@ -352,7 +348,6 @@ public class TestClient {
 			// @formatter:off
 			"5\n";
 			// @formatter:on
-			
 
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK filas correctas en compra después de aplicar descuento");
@@ -360,8 +355,8 @@ public class TestClient {
 				System.out.println("\tERROR filas incorrectas en compra después de aplicar descuento");
 			}
 			rs.close();
-			con.commit();		
-			
+			con.commit();
+
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT sum(importe) FROM compra where cif = 'B10000000'");
 
@@ -375,33 +370,28 @@ public class TestClient {
 			// @formatter:off
 			"1487.5\n";
 			// @formatter:on
-			
 
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK Importe en compra correcto después de aplicar descuento");
 			} else {
 				System.out.println("\tERROR Importe en compra incorrecto después de aplicar descuento");
 			}
-			
-			
+
 			rs.close();
-			con.commit();	
-			
-			
+			con.commit();
+
 			devuelto = implService.quitarDescuento("A10000000");
 			System.out.println("El valor devuelto es " + String.format("%.4f", devuelto));
-			
-			if(String.format("%.4f", devuelto).equals("1242,4938".toString())) {
+
+			if (String.format("%.4f", devuelto).equals("1242,4938".toString())) {
 				System.out.println("\tOK valor devuelto por descuento correcto");
-				
-			}else {
+
+			} else {
 				System.out.println("\tERROR valor devuelto por descuento incorrecto");
 			}
-				
-			
+
 			con = pool.getConnection();
 
-			
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT count(0) FROM compra where cif = 'A10000000'");
 
@@ -415,7 +405,6 @@ public class TestClient {
 			// @formatter:off
 			"3\n";
 			// @formatter:on
-			
 
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK filas correctas en compra después de aplicar descuento");
@@ -424,7 +413,7 @@ public class TestClient {
 			}
 			rs.close();
 			con.commit();
-			
+
 			st = con.createStatement();
 			rs = st.executeQuery("SELECT sum(importe) FROM compra where cif = 'A10000000'");
 
@@ -438,18 +427,16 @@ public class TestClient {
 			// @formatter:off
 			"4825.0\n";
 			// @formatter:on
-			
 
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK Importe en compra correcto después de aplicar descuento");
 			} else {
 				System.out.println("\tERROR Importe en compra incorrecto después de aplicar descuento");
 			}
-			
-			
+
 			rs.close();
-			con.commit();			
-			
+			con.commit();
+
 		} catch (Exception ex) {
 			logger.error("ERROR grave en test. " + ex.getLocalizedMessage());
 			con.rollback();
@@ -458,8 +445,6 @@ public class TestClient {
 			cerrarRecursos(con, st, rs);
 		}
 	}
-	
-
 
 	/**
 	 * Inserta una compra correcta.
@@ -479,7 +464,8 @@ public class TestClient {
 
 			// Comprobar si la incidencia se ha añadido
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT fecha||'-'||personas||'-'||importe FROM compra where cif = 'B10000000' AND idmenu = 1 order by fecha asc");
+			rs = st.executeQuery(
+					"SELECT fecha||'-'||personas||'-'||importe FROM compra where cif = 'B10000000' AND idmenu = 1 order by fecha asc");
 
 			StringBuilder resultado = new StringBuilder();
 			while (rs.next()) {
@@ -494,7 +480,6 @@ public class TestClient {
 			"14/04/19 11:00:00,000000-15-187,5\n" +
 			"15/05/19 16:00:00,000000-30-375\n";
 			// @formatter:on
-			
 
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK compra bien insertada");
@@ -503,14 +488,14 @@ public class TestClient {
 			}
 			rs.close();
 			con.commit();
-		
 
-			implService.insertarCompra(dateformat.parse("15/05/2019 16:00"), "C10000000", 3, 30);																						// puntos
+			implService.insertarCompra(dateformat.parse("15/05/2019 16:00"), "C10000000", 3, 30); // puntos
 			con = pool.getConnection();
 
 			// Comprobar si la incidencia se ha añadido
 			st = con.createStatement();
-			rs = st.executeQuery("SELECT fecha||'-'||personas||'-'||importe FROM compra where cif = 'C10000000' AND idmenu = 3 order by fecha asc");
+			rs = st.executeQuery(
+					"SELECT fecha||'-'||personas||'-'||importe FROM compra where cif = 'C10000000' AND idmenu = 3 order by fecha asc");
 
 			resultado = new StringBuilder();
 			while (rs.next()) {
@@ -523,19 +508,15 @@ public class TestClient {
 			"15/05/19 16:00:00,000000-30-510,3\n" +
 			"15/06/19 11:00:00,000000-500-8505\n";
 			// @formatter:on
-			
-	
+
 			if (cadenaEsperada.equals(resultado.toString())) {
 				System.out.println("\tOK compra 2  bien insertada");
 			} else {
 				System.out.println("\tERROR compra 2  mal insertada");
 			}
 			rs.close();
-			con.commit();			
-			
-			
-			
-			
+			con.commit();
+
 		} catch (Exception ex) {
 			logger.error("ERROR grave en test. " + ex.getLocalizedMessage());
 			con.rollback();
@@ -545,7 +526,6 @@ public class TestClient {
 		}
 	}
 
-	
 	/**
 	 * Consulta con un tipo de menu no existente
 	 * 
@@ -567,11 +547,12 @@ public class TestClient {
 		} catch (PersistenceException ex) {
 			logger.error("ERROR en transacción consultar menú con JPA: " + ex.getLocalizedMessage());
 			throw new RuntimeException("Error en consultar menú", ex);
-		} catch(Exception ex) {
-			logger.error("ERROR grave de programación en transacción de consultar menús con JPA: " + ex.getLocalizedMessage());
+		} catch (Exception ex) {
+			logger.error("ERROR grave de programación en transacción de consultar menús con JPA: "
+					+ ex.getLocalizedMessage());
 			throw new RuntimeException("Error grave en consultar de menús", ex);
 		}
-	}	
+	}
 
 	/**
 	 * Prueba consulta de menus, cargando datos completos desde un grafo de
@@ -582,7 +563,7 @@ public class TestClient {
 	private static void consultarMenusUsandoGrafo(Service implService) {
 		try {
 			System.out.println("Información completa con grafos de entidades...");
-			List<Menu> menus = implService.consultarMenu(1);		
+			List<Menu> menus = implService.consultarMenu(1);
 			for (Menu menu : menus) {
 				System.out.println(menu.toString());
 				Set<Compra> compras = menu.getCompras();
@@ -598,9 +579,7 @@ public class TestClient {
 			throw new RuntimeException("Error en consulta de vehiculos", ex);
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Cierra recursos de la transacción.
 	 * 

@@ -5,32 +5,33 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 /**
- * Clase embebida que representa la dirección postal de un cliente.
- * Sus atributos se almacenan en la misma tabla que la entidad que la contiene (Cliente).
+ * Clase embebida que representa la dirección postal de un cliente. Sus
+ * atributos se almacenan en la misma tabla que la entidad que la contiene
+ * (Cliente).
  *
  * @author Luis Menendez Ramos
  */
 @Embeddable
 public class DireccionPostal implements Serializable {
-	
+
 	private final static long serialVersionUID = 1L;
-	
+
 	/**
 	 * Ciudad del cliente
 	 */
 	private String ciudad;
 
-/**
- * Código postal
- */
+	/**
+	 * Código postal
+	 */
 	private String cp;
 	/**
 	 * Dirección (calle, número, etc.)
 	 */
 	private String direccion;
-	
+
 	public DireccionPostal() {
-		
+
 	}
 
 	public String getCiudad() {
@@ -56,10 +57,10 @@ public class DireccionPostal implements Serializable {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "DireccionPostal [ direccion= " + direccion + " CP= " + cp + " ciudad= " + ciudad +" ]";
+		return "DireccionPostal [ direccion= " + direccion + " CP= " + cp + " ciudad= " + ciudad + " ]";
 	}
 
 }

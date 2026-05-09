@@ -11,13 +11,13 @@ import javax.persistence.EntityManager;
  * @author <a href="mailto:rmartico@ubu.es">Raúl Marticorena</a>
  * @author <a href="mailto:mmabad@ubu.es">Mario Martínez</a>
  * @author <a href="mailto:operez@ubu.es">Óscar Pérez</a>
- * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a> 
+ * @author <a href="mailto:pgdiaz@ubu.es">Pablo García</a>
  * 
  * @param <E> element type (entity)
  * @param <K> key type
  */
-public abstract class JpaDAO<E,K> implements DAO<E,K> {
-	
+public abstract class JpaDAO<E, K> implements DAO<E, K> {
+
 	/** Index of entity formal par. */
 	private static final int ENTITY_FORMAL_PAR = 0;
 
@@ -39,16 +39,16 @@ public abstract class JpaDAO<E,K> implements DAO<E,K> {
 		this.entityClass = (Class<?>) genericSuperclass.getActualTypeArguments()[ENTITY_FORMAL_PAR];
 		this.setEntityManager(em);
 	}
-	
-	/** 
-	 * Sets entity manager. 
+
+	/**
+	 * Sets entity manager.
 	 * 
 	 * @param em entity manager.
 	 */
 	private void setEntityManager(EntityManager em) {
 		this.entityManager = em;
 	}
-	
+
 	/**
 	 * Gets entity manager.
 	 * 
@@ -58,19 +58,23 @@ public abstract class JpaDAO<E,K> implements DAO<E,K> {
 		return this.entityManager;
 	}
 
-	/** 
+	/**
 	 * Persists entity.
 	 * 
 	 * @param entity entity
 	 */
-	public void persist(E entity) { entityManager.persist(entity); }
+	public void persist(E entity) {
+		entityManager.persist(entity);
+	}
 
 	/**
 	 * Removes entity.
 	 * 
 	 * @param entity entity
 	 */
-	public void remove(E entity) { entityManager.remove(entity); }
+	public void remove(E entity) {
+		entityManager.remove(entity);
+	}
 
 	/**
 	 * Finds entity by primary key.
@@ -79,5 +83,7 @@ public abstract class JpaDAO<E,K> implements DAO<E,K> {
 	 * @return found entity with that primary key
 	 */
 	@SuppressWarnings("unchecked")
-	public E findById(K id) { return (E) entityManager.find(entityClass, id); }
+	public E findById(K id) {
+		return (E) entityManager.find(entityClass, id);
+	}
 }
