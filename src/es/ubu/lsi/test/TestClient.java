@@ -117,6 +117,9 @@ public class TestClient {
 
 			// comprueba que la consulta de menus carga todos los datos
 			consultarMenusUsandoGrafo(implService);
+			
+			//Ejecucion de los test implementados por Luis Menendez
+			TestClientAlumno.ejecutarTests(implService);
 
 		} catch (Exception e) { // for testing code...
 			logger.error(e.getMessage());
